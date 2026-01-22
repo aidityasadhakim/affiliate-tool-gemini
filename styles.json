@@ -1,0 +1,42 @@
+{
+  "theme": "Neo-Brutalism",
+  "colors": {
+    "background": "#E8F5E9",
+    "surface": "#FFFFFF",
+    "surfaceDark": "#000000",
+    "primary": "#000000",
+    "secondary": "#FFFFFF",
+    "accent": "#A7F3D0",
+    "highlight": "#FCD34D",
+    "text": {
+      "main": "#000000",
+      "inverse": "#FFFFFF",
+      "muted": "#4B5563"
+    },
+    "border": "#000000"
+  },
+  "layout": {
+    "borderRadius": "12px",
+    "borderWidth": "2px",
+    "boxShadow": "4px 4px 0px 0px #000000",
+    "boxShadowHover": "6px 6px 0px 0px #000000",
+    "containerMaxWidth": "1200px"
+  },
+  "typography": {
+    "fontFamily": "Inter, sans-serif",
+    "headings": "font-weight: 800; letter-spacing: -0.02em;",
+    "body": "font-weight: 500;"
+  },
+  "components": {
+    "button": {
+      "default": "bg-white text-black border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-y-[0px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all font-bold",
+      "primary": "bg-black text-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:shadow-[6px_6px_0px_0px_rgba(100,100,100,1)]"
+    },
+    "card": {
+      "default": "bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl"
+    },
+    "input": {
+      "default": "bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] outline-none transition-all p-3"
+    }
+  }
+}
