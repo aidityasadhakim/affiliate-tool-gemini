@@ -22,7 +22,6 @@
   },
   "include": [
     "*.tsx",
-    "*.ts",
     "App.jsx"
   ],
   "references": [
