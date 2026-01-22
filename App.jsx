@@ -743,16 +743,13 @@ Be specific and concise. This will be used to create natural Instagram Story ads
       const lifestyleLabel = lifestyleSettingOptions.find(o => o.value === lifestyleSetting)?.label || lifestyleSetting;
       const integrationLabel = integrationStyleOptions.find(o => o.value === integrationStyle)?.label || integrationStyle;
 
-      // Step 3: Define 4 different frame types (AI will intelligently choose angles)
+      // Step 3: Define 4 different frame types in predefined order (NO shuffle)
       const frameTypes = [
-        'Product close-up with lifestyle context',
-        'Wide shot of the lifestyle setting with product naturally placed',
-        'Person interaction shot (close-up or mid-shot)',
-        'Full scene or person full body with product in use'
+        'Product close-up shot - Focus on product details with subtle lifestyle context in background',
+        'Wide shot of the lifestyle setting - Show the environment/place where product naturally exists',
+        'Person interaction shot - Close-up or mid-shot of person using/holding/interacting with product',
+        'Full scene shot - Person full body or wider composition showing product in use within the lifestyle context'
       ];
-
-      // Shuffle frame types for randomization
-      const shuffledTypes = frameTypes.sort(() => Math.random() - 0.5);
 
       // Step 4: Generate each frame
       const frames = [];
@@ -769,7 +766,7 @@ ${productContext}
 LIFESTYLE SETTING: ${lifestyleLabel}
 BRAND INTEGRATION: ${integrationLabel}
 
-FRAME ${i + 1}/4 - ${shuffledTypes[i]}
+FRAME ${i + 1}/4 - ${frameTypes[i]}
 
 CRITICAL REQUIREMENTS:
 1. This must look like a REAL Instagram Story posted by a natural user (not an ad)
@@ -777,12 +774,14 @@ CRITICAL REQUIREMENTS:
 3. Aspect ratio: MUST be 9:16 (vertical, Instagram Story format)
 4. Setting: ${lifestyleLabel}
 5. Product integration: ${integrationLabel}
-6. Frame type: ${shuffledTypes[i]}
+6. Frame type: ${frameTypes[i]}
 7. Maintain STRICT VISUAL CONSISTENCY across all frames (same person, same color palette, same aesthetic, same time of day)
 8. Professional photography quality but natural lighting
 9. Realistic and organic product placement
 10. Each frame should be thematically different but visually consistent${additionalPrompt}
 11. Do not add text or hashtags to the image, just generate pure image
+12. The image generated must be in a different style from the previous image
+13. So the output only took previous image as reference only, the pose and angle must be different
 
 AI DECISION: Intelligently decide the best angle, composition, and context for this frame type in the given lifestyle setting. Make it look natural and authentic.`;
 
@@ -826,7 +825,7 @@ AI DECISION: Intelligently decide the best angle, composition, and context for t
 
   // Fetch one story frame with retry logic
   const fetchOneStoryFrame = async (frameIndex, promptText, url, productImage, previousFrames = []) => {
-    const generationConfig = { 
+    const generationConfig = {
       responseModalities: ["IMAGE"],
       imageGenerationConfig: { aspectRatio: '9:16' } // Fixed to Instagram Story format
     };
@@ -835,9 +834,9 @@ AI DECISION: Intelligently decide the best angle, composition, and context for t
 
     // Include product image for reference
     parts.push({
-      inline_data: { 
-        mime_type: productImage.mimeType, 
-        data: productImage.base64 
+      inline_data: {
+        mime_type: productImage.mimeType,
+        data: productImage.base64
       }
     });
 
@@ -2345,8 +2344,8 @@ Sertakan:
                   onClick={generateStoryAds}
                   disabled={loading || !uploadedImages.main || !lifestyleSetting || !integrationStyle}
                   className={`${brutalBtn} px-6 py-3 rounded-lg flex items-center gap-2 ${loading || !uploadedImages.main || !lifestyleSetting || !integrationStyle
-                      ? 'bg-gray-200 text-gray-400 border-gray-400 shadow-none translate-y-0 cursor-not-allowed'
-                      : 'bg-[#FCD34D] text-black'
+                    ? 'bg-gray-200 text-gray-400 border-gray-400 shadow-none translate-y-0 cursor-not-allowed'
+                    : 'bg-[#FCD34D] text-black'
                     }`}
                 >
                   {loading ? <Loader2 className="animate-spin" size={20} /> : <Instagram size={20} />}
@@ -2438,8 +2437,8 @@ Sertakan:
                               onClick={() => regenerateStoryFrame(idx)}
                               disabled={regeneratingStoryFrame !== null || loading}
                               className={`${brutalBtn} px-3 py-2 rounded-lg flex items-center justify-center gap-1 text-xs ${regeneratingStoryFrame !== null || loading
-                                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                  : 'bg-[#FCD34D] text-black'
+                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                : 'bg-[#FCD34D] text-black'
                                 }`}
                             >
                               <Sparkles size={14} />
@@ -2508,33 +2507,36 @@ Sertakan:
     <div className="min-h-screen bg-[#E8F5E9] text-black font-sans p-4 md:p-6 lg:p-8">
       <div className="w-full max-w-[1400px] mx-auto space-y-4">
 
-        {/* Header Card - Logo + Social Links Only */}
+        {/* Header - Social Media Only */}
         <div className={`${brutalCard} p-4`}>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-
-            {/* Logo / Title */}
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-[#FCD34D] rounded-lg border-2 border-black shadow-[4px_4px_0px_0px_#000000] flex items-center justify-center">
-                <Sparkles size={24} className="text-black" />
-              </div>
-              <div>
-                <h1 className="text-xl font-black uppercase tracking-tight">NanoGen AI</h1>
-                <p className="text-xs font-medium text-gray-500">Multi-Tool Creative Suite</p>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-2">
-              <a href="https://youtube.com/@aidityasadhakim" target="_blank" rel="noopener noreferrer" className="p-2 border-2 border-black rounded-full bg-[#FF0000] text-white hover:bg-white hover:text-black transition-colors">
-                <Youtube size={18} />
-              </a>
-              <a href="https://tiktok.com/@itakumiii" target="_blank" rel="noopener noreferrer" className="p-2 border-2 border-black rounded-full bg-black text-white hover:bg-white hover:text-black transition-colors">
-                <TikTokIcon size={18} />
-              </a>
-              <a href="https://twitter.com/AAidityas" target="_blank" rel="noopener noreferrer" className="p-2 border-2 border-black rounded-full bg-[#1DA1F2] text-white hover:bg-white hover:text-black transition-colors">
-                <Twitter size={18} />
-              </a>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">
+            <a 
+              href="https://youtube.com/@aidityasadhakim" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-2 px-3 py-2 border-2 border-black rounded-lg bg-[#FF0000] text-white hover:bg-white hover:text-[#FF0000] transition-all shadow-[2px_2px_0px_0px_#000000] hover:shadow-[4px_4px_0px_0px_#000000] font-bold"
+            >
+              <Youtube size={18} />
+              <span className="text-sm">@aidityasadhakim</span>
+            </a>
+            <a 
+              href="https://tiktok.com/@itakumiii" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-2 px-3 py-2 border-2 border-black rounded-lg bg-black text-white hover:bg-white hover:text-black transition-all shadow-[2px_2px_0px_0px_#000000] hover:shadow-[4px_4px_0px_0px_#000000] font-bold"
+            >
+              <TikTokIcon size={18} />
+              <span className="text-sm">@itakumiii</span>
+            </a>
+            <a 
+              href="https://twitter.com/AAidityas" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="flex items-center gap-2 px-3 py-2 border-2 border-black rounded-lg bg-[#1DA1F2] text-white hover:bg-white hover:text-[#1DA1F2] transition-all shadow-[2px_2px_0px_0px_#000000] hover:shadow-[4px_4px_0px_0px_#000000] font-bold"
+            >
+              <Twitter size={18} />
+              <span className="text-sm">@AAidityas</span>
+            </a>
           </div>
         </div>
 
